@@ -94,5 +94,4 @@ runs:
         cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}/appsecrets
         terragrunt init -backend-config=key=appsecrets/${{ inputs.environment }}/${{ inputs.region-friendly }}/${{ inputs.app-name }}/terraform.tfstate
         export TF_VAR_application_id=${{ inputs.app-name }}
-        terragrunt plan
-
+        terragrunt apply -auto-approve
