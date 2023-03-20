@@ -22,6 +22,9 @@ inputs:
   appsecret-ref:
     descrition: 'Ref to use for pulling repo apopsecret'
     default: 'master'
+  gitub-token:
+    description: 'Github token to pull package to avoid limit rate'
+    default: ''
   github-ssh:
     description: 'Github ssh key to pull terragrunt from github api'
     required: true
