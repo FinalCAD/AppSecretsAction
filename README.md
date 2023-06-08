@@ -38,7 +38,7 @@ Github token to avoid limit rate when pulling package
 Finalcad region: frankfurt or tokyo, Default: frankfurt
 
 ### `secret-file`
-Path for sercet file to create, Default: .finalcad/secrets.yaml
+Path for secret file to create, Default: .finalcad/secrets.yaml
 
 ## Usage
 
