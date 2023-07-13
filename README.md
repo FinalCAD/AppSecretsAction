@@ -25,7 +25,7 @@ Repository containing terraform code for secret creation, Default: FinalCAD/terr
 ### `appsecret-ref`
 Reference to use for `appsecret-repo` repository, Default: master
 
-### `gitub-token`
+### `github-token`
 Github token to avoid limit rate when pulling package
 
 ### `github-ssh`

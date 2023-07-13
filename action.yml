@@ -22,7 +22,7 @@ inputs:
   appsecret-ref:
     descrition: 'Ref to use for pulling repo apopsecret'
     default: 'master'
-  gitub-token:
+  github-token:
     description: 'Github token to pull package to avoid limit rate'
     default: ''
   github-ssh:
@@ -71,7 +71,7 @@ runs:
       if: inputs.terragrunt-version != 'disabled'
       with:
         terragrunt_version: ${{ inputs.terragrunt-version }}
-        token: ${{ inputs.gitub-token }}
+        token: ${{ inputs.github-token }}
     # Copy secret configuration file
     - name: Secret file
       id: secretfile
