@@ -1,54 +1,7 @@
 # AppSecretsAction
 
-Github Action to deploy in aws secret manager a set of secret from the app repository.
-File should match this path `.finalcad/secrets.yaml`. You can find a list of all available keys on this [page](https://finalcad.atlassian.net/wiki/spaces/INFRA/pages/3213590529/Security+secrets)
+This Github Action has been deprecated. Use [Gob](https://finalcad.atlassian.net/wiki/spaces/TE/pages/4264427522/Repository+update+by+Gob) to update your project.
 
-## Inputs
-### `app-name`
-[**Required**] Application ID to identify the apps in eks-apps
+If you don't know what it means, post a message on [Slack #infra-backend](https://finalcad.slack.com/archives/G01GL3EBLAW).
 
-### `aws-role`
-[**Required**] AWS role allowing Secret manager usage
-
-### `aws-region`
-AWS region for ECR checks, Default: eu-central-1
-
-### `terraform-version`
-Terraform version to use, Default: latest
-
-### `terragrunt-version`
-Terragrunt version to use, Default: latest
-
-### `appsecret-repo`
-Repository containing terraform code for secret creation, Default: FinalCAD/terraform-app-secrets
-
-### `appsecret-ref`
-Reference to use for `appsecret-repo` repository, Default: master
-
-### `github-token`
-Github token to avoid limit rate when pulling package
-
-### `github-ssh`
-[**Required**] Github ssh key to pull `appsecret-repo` repository
-
-### `environment`
-[**Required**] Finalcad envrionment: production, staging, sandbox
-
-### `region-friendly`
-Finalcad region: frankfurt or tokyo, Default: frankfurt
-
-### `secret-file`
-Path for secret file to create, Default: .finalcad/secrets.yaml
-
-## Usage
-
-```yaml
-- name: Push secrets
-  uses: FinalCAD/AppSecretsAction@v0.0.1
-  with:
-    github-ssh: ${{ secrets.GH_DEPLOY_SSH }}
-    environment: sandbox
-    region-friendly: frankfurt
-    app-name: api1-service-api
-    aws-role: ${{ secrets.DEPLOY_ROLE_MASTER }}
-```
+In case of emergency and CI migration isn't possible fallback to [`v1.0.2-deprecated`](https://github.com/FinalCAD/AppSecretsAction/tree/v1.0.2-deprecated).
