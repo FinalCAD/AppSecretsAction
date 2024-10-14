@@ -3,99 +3,49 @@ description: 'Create a secret for microservice from global secret'
 inputs:
   app-name:
     description: 'Applcation id'
-    required: true
+    default: ''
   aws-role:
     description: 'Aws role to apply changes'
-    required: true
+    default: ''
   aws-region:
     description: 'Aws region'
-    default: 'eu-central-1'
+    default: ''
   terraform-version:
     description: 'Terraform version to install.'
-    default: 'latest'
+    default: ''
   terragrunt-version:
     description: 'Terragrunt version to install.'
-    default: 'latest'
+    default: ''
   appsecret-repo:
     description: 'appsecret repository'
-    default: 'FinalCAD/terraform-app-secrets'
+    default: ''
   appsecret-ref:
-    descrition: 'Ref to use for pulling repo apopsecret'
-    default: 'master'
+    description: 'Ref to use for pulling repo apopsecret'
+    default: ''
   github-token:
     description: 'Github token to pull package to avoid limit rate'
     default: ''
   github-ssh:
     description: 'Github ssh key to pull terragrunt from github api'
-    required: true
+    default: ''
   environment:
     description: 'Finalcad envrionment: production, staging, sandbox'
-    require: true
+    default: ''
   region-friendly:
     description: 'Finalcad region: frankfurt or tokyo'
-    default: 'frankfurt'
+    default: ''
   secret-file:
     description: 'File with path for secret configuration'
-    default: '.finalcad/secrets.yaml'
+    default: ''
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v3
-      with:
-        path: 'app'
-    - uses: actions/checkout@v3
-      with:
-        ssh-key: ${{ inputs.github-ssh }}
-        repository: ${{ inputs.appsecret-repo }}
-        ref: ${{ inputs.appsecret-ref }}
-        path: 'terragrunt'
-    # Setup ssh key
-    - name: Add ssh key
+    - name: "[deprecated] AppSecretsAction"
       shell: bash
       run: |
-          mkdir -p ~/.ssh
-          echo "${{ inputs.github-ssh }}" > ~/.ssh/id_rsa
-          ssh-keyscan github.com >> ~/.ssh/known_hosts
-          chmod 600 ~/.ssh/id_rsa ~/.ssh/known_hosts
-          eval $(ssh-agent)
-          ssh-add ~/.ssh/id_rsa
-    # Setup terraform
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      with:
-        terraform_version: ${{ inputs.terraform-version }}
-        terraform_wrapper: false
-    # Setup terragrunt
-    - name: Terragrunt Binary Installer Action
-      uses: autero1/action-terragrunt@v1.3.0
-      if: inputs.terragrunt-version != 'disabled'
-      with:
-        terragrunt_version: ${{ inputs.terragrunt-version }}
-        token: ${{ inputs.github-token }}
-    # Copy secret configuration file
-    - name: Secret file
-      id: secretfile
-      shell: bash
-      run: |
-        set -e
-        if [ -f ./app/${{ inputs.secret-file }} ]; then
-          cp ./app/${{ inputs.secret-file }} ./terragrunt/secrets.yaml
-          echo "secretfile=ok" >> $GITHUB_OUTPUT
-        fi
-    # Configure aws credentials
-    - name: Configure AWS credentials for security
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-region: ${{ inputs.aws-region }}
-        role-to-assume: ${{ inputs.aws-role }}
-        role-session-name: OIDCSession
-    # Apply terragrunt
-    - name: Terragrunt apply
-      shell: bash
-      if: ${{ steps.secretfile.outputs.secretfile }} == "ok"
-      run: |
-        cd ./terragrunt/${{ inputs.environment }}/${{ inputs.region-friendly }}/appsecrets
-        terragrunt init -backend-config=key=appsecrets/${{ inputs.environment }}/${{ inputs.region-friendly }}/${{ inputs.app-name }}/terraform.tfstate
-        export TF_VAR_application_id=${{ inputs.app-name }}
-        export TF_VAR_region_finalcad=${{ inputs.region-friendly }}
-        terragrunt apply -auto-approve
+          cat <<EOF
+          The Github Action https://github.com/FinalCAD/AppSecretsAction is deprecated. Use Gob (https://finalcad.atlassian.net/wiki/spaces/TE/pages/4264427522/Repository+update+by+Gob) to update your project.
+
+          If you don't know what it means, post a message on Slack #infra-backend (https://finalcad.slack.com/archives/G01GL3EBLAW).
+          EOF
+          exit 1
